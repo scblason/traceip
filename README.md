@@ -19,7 +19,7 @@ Ejemplo para realizar una consulta de reporte:
 ## Servicios API
 La API expone 4 ervicios definidos en .NET Core 2.2 Web API:
 
-### - GET api/traceip?ip={ip}
+### GET api/traceip?ip={ip}
 Recibe un IP como parametro y retorna un reporte con la información relacionada al país al que pertenece esa IP. Como este servicio recibe solo un parámetro, se lo envía como query string y así evitar la necesidad de armar form web para realizar consultas/pruebas.
 
 Ejemplo:
@@ -32,15 +32,15 @@ Ejemplo:
     Distance: 10840
     Hits: 1
 ```
-### - GET api/traceip/stats/nearest
+### GET api/traceip/stats/nearest
 Devuelve el reporte del pais mas cercano (en Kms) a la ciudad de Buenos Aires
 
 NOTA: Si Argentina se encuentra en la base de reportes (representa la menor distancia), se la ignora para retornar el reporte de un país mas representativo (distancia > 0).
 
-### - GET api/traceip/stats/farest
+### GET api/traceip/stats/farest
 Devuelve el reporte del pais mas lejano (en Kms) a la ciudad de Buenos Aires
 
-### - GET api/traceip/stats/average
+### GET api/traceip/stats/average
 Devuelve la distancia promedio de todas las ejecuciones que se hayan hecho al servicio. 
 ```
 Distancia promedio de todas las ejecuciones: 10557
@@ -49,27 +49,21 @@ Distancia promedio de todas las ejecuciones: 10557
 ## Implementación
 
 ### Arquitectura
-- Se utilizó .NET Core para el desarrollo de la API REST.
-- Se utilizó Redis como base de datos key/value, para rápido acceso a los datos requeridos. Esto permite un rápido acceso a los reportes que ya habían sido consultados anteriormente. La base Redis actua como la única base del servicio, manteniendo la persistencia de los datos.
-
+* Se utilizó .NET Core para el desarrollo de la API REST.
+* Se utilizó Redis como base de datos key/value, para rápido acceso a los datos requeridos. Esto permite un rápido acceso a los reportes que ya habían sido consultados anteriormente. La base Redis actua como la única base del servicio, manteniendo la persistencia de los datos.
 Como las consultas estadísticas que requiere ofrecer la API son posibles de lograr sobre la base Redis, no se utilizó ningun otro motor de persistencia. Pero llegado el caso, la arquitectura permite agregar otro store con un manejo de consultas mas avanzado (MongoDB, SQL Server, etc) para manejar el guardado de reportes, y solo mantener Redis como una base "cache" para retornar los últimos reportes consutaldos o la distancia promedio.
 
-- Se utilizaron APIs públicas para resolver la informacion del IP. Ademas de las recomendadas por el documento (Geolocalizacion e información de países), se utilizó un servicio diferente para la información de monedas: `https://api.exchangeratesapi.io/latest`. El servicio ofrecido por el documento (`https://fixer.io/`) no permitía cambiar la moneda base (en la version de plan "free").
+* Se utilizaron APIs públicas para resolver la informacion del IP. Ademas de las recomendadas por el documento (Geolocalizacion e información de países), se utilizó un servicio diferente para la información de monedas: `https://api.exchangeratesapi.io/latest`. El servicio ofrecido por el documento (`https://fixer.io/`) no permitía cambiar la moneda base (en la version de plan "free").
 
-- Se armaron containers Docker para integrar toda la solución. Dentro del proyecto se puede ver el archivo ´docker-compose.yml´, el cual indica los containers que se van a generar para la ejecución:
-  - "webapi": En este container se genera una imagen con el ambiente dotnet:2.2, definido en un archivo Dockerfile. Se instancia el proyecto TraceIpWebApi.csproj (Web API) y se lo inicia, escuchando el puerto 5000.
-  - "redis": Container que inicia una instancia Redis en modo --appendonly yes para manejo de persistencia de datos.
+* Se armaron containers Docker para integrar toda la solución. Dentro del proyecto se puede ver el archivo ´docker-compose.yml´, el cual indica los containers que se van a generar para la ejecución:
+  ** "webapi": En este container se genera una imagen con el ambiente dotnet:2.2, definido en un archivo Dockerfile. Se instancia el proyecto TraceIpWebApi.csproj (Web API) y se lo inicia, escuchando el puerto 5000.
+  ** "redis": Container que inicia una instancia Redis en modo --appendonly yes para manejo de persistencia de datos.
 
-# Nice to have
-i18l
+# Test 
+Se incluyo un proyecto de Unit Test en la solución. Utiliza MSTest como librería de Unit Testing. Se pueden correr utilizando el ambiente de desarrollo (Visual Studio), para probar la funcionalidad minima del servicio.
 
-# Run docker instance (Web API)
-docker run --env ASPNETCORE_ENVIRONMENT = Development--env ASPNETCORE_URLS = http://+:5000 -p 5000:5000 -t --rm -it  traceipwebapi
+También se dejan a continuación algunos direcciones IPs para realizar pruebas:
 
-# Docker compose
-docker-compose -f docker-compose.yml up -d --build
-
-# Test IPs
 ```
 Afghanistan: 149.54.127.255
 Aleria: 41.109.116.255
@@ -77,18 +71,20 @@ Antigua y Barbuda: 206.214.15.255
 Argentina: 24.232.255.255
 Australia: 1.159.255.255
 Belgium: 	5.23.255.255
-Brazil: 18.229.255.255, 2824kms, 2 hits
+Brazil: 18.229.255.255
 Bulgaria: 5.53.255.255
 Colombia: 152.205.255.255
 Cuba: 152.207.255.255
 Croatia: 31.147.255.255
-Japan: 1.79.255.255, 18018km
+Japan: 1.79.255.255
 Iraq: 130.193.255.255
 France: 5.51.255.255
-Uruguay: 186.55.255.255, 750kms
+Uruguay: 186.55.255.255
 Mexico: 132.248.255.255
-China: 14.127.255.255, 19017kms, 2 hits
+China: 14.127.255.255
 Cameroon: 41.244.255.255
 Rusia: 2.95.255.255
 Suecia: 2.255.247.255
-UK: 3.11.255.255, 11454kms
+UK: 3.11.255.255
+```
+
