@@ -4,7 +4,7 @@ using TraceIp.Model;
 
 namespace TraceIpWebApi.Repositories
 {
-    public interface IStatsCache
+    public interface IStatsRepositorie
     {
         string GetFarestCountryCode();
         string GetNearestCountryCode();
@@ -13,6 +13,6 @@ namespace TraceIpWebApi.Repositories
         Task AddCountryByDistanceAsync(string key, double score);
 
         void UpdateAverageDistance(long average);
-        long GetAverageDistance();
+        long? GetAverageDistance();
     }
 }

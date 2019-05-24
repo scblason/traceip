@@ -9,6 +9,6 @@ namespace TraceIpWebApi.Service
         Task<TraceIpReport> GetTraceReport(string ip);
         TraceIpReport GetReportByNearestCountry();
         TraceIpReport GetReportByFarestCountry();
-        long GetAverageDistance();
+        long? GetAverageDistance();
     }
 }

@@ -27,7 +27,7 @@ namespace TraceIp.Tests
         {
             IConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost:6379,allowAdmin=true");
             redis.GetServer(redis.GetEndPoints()[0]).FlushAllDatabases();
-            ITraceIpService service = new TraceIpService(new TraceIpCache(redis), new StatsCache(redis));
+            ITraceIpService service = new TraceIpService(new TraceReportRepositorie(redis), new StatsRepositorie(redis));
 
             string testData = System.IO.File.ReadAllText(@"test_data.txt");
             var IPs = testData.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
@@ -43,7 +43,7 @@ namespace TraceIp.Tests
         public void InitService()
         {
             _redis = ConnectionMultiplexer.Connect("localhost:6379,allowAdmin=true");
-            _service = new TraceIpService(new TraceIpCache(_redis), new StatsCache(_redis));
+            _service = new TraceIpService(new TraceReportRepositorie(_redis), new StatsRepositorie(_redis));
         }
 
         [TestMethod]
@@ -71,13 +71,13 @@ namespace TraceIp.Tests
         public async Task TestAverage()
         {
             // Add one more hit to Brazil and China
-            await _service.GetTraceReport("18.229.255.255");
-            await _service.GetTraceReport("14.127.255.255");
+            Assert.IsNotNull(await _service.GetTraceReport("18.229.255.255"));
+            Assert.IsNotNull(await _service.GetTraceReport("14.127.255.255"));
 
             //( (2824 * 2) + (18018) + (750) + (19017 * 2) + (11454) ) / 7 = 10557kms
 
-            long avgDistance = _service.GetAverageDistance();
-            Assert.AreEqual(avgDistance, 10557);
+            long? avgDistance = _service.GetAverageDistance();
+            Assert.AreEqual(avgDistance.Value, 10557);
         }
     }
 }

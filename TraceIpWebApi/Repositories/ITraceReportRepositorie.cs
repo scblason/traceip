@@ -4,7 +4,7 @@ using TraceIp.Model;
 
 namespace TraceIpWebApi.Repositories
 {
-    public interface ITraceIpCache
+    public interface ITraceReportRepositorie
     {
         TraceIpReport GetTraceReport(string key);
         Task GetTraceReportAsync(string key);

@@ -10,35 +10,35 @@ using System.Collections.Generic;
 
 namespace TraceIpWebApi.Repositories
 {
-    public class TraceIpCache : ITraceIpCache
+    public class TraceReportRepositorie : ITraceReportRepositorie
     {
-        private IConnectionMultiplexer cacheReport;
+        private IConnectionMultiplexer _redis;
         private const int TRACE_CACHE_DB = 0;
 
-        public TraceIpCache(IConnectionMultiplexer cache)
+        public TraceReportRepositorie(IConnectionMultiplexer redis)
         {
-            this.cacheReport = cache;
+            this._redis = redis;
         }
 
         public TraceIpReport GetTraceReport(string key)
         {
-            string report = this.cacheReport.GetDatabase(TRACE_CACHE_DB).StringGet(key);
+            string report = this._redis.GetDatabase(TRACE_CACHE_DB).StringGet(key);
             return !String.IsNullOrEmpty(report) ? JsonConvert.DeserializeObject<TraceIpReport>(report) : null;
         }
 
         public Task GetTraceReportAsync(string key)
         {
-            return this.cacheReport.GetDatabase(TRACE_CACHE_DB).StringGetAsync(key);
+            return this._redis.GetDatabase(TRACE_CACHE_DB).StringGetAsync(key);
         }
 
         public void AddTraceReport(string key, string value)
         {
-            this.cacheReport.GetDatabase(TRACE_CACHE_DB).StringSet(key, value);
+            this._redis.GetDatabase(TRACE_CACHE_DB).StringSet(key, value);
         }
 
         public Task AddTraceReportAsync(string key, string value)
         {
-            return this.cacheReport.GetDatabase(TRACE_CACHE_DB).StringSetAsync(key, value);
+            return this._redis.GetDatabase(TRACE_CACHE_DB).StringSetAsync(key, value);
         }
 
         public long CalculateAverageDistance()
@@ -46,8 +46,8 @@ namespace TraceIpWebApi.Repositories
             long average = 0;
             long totalHits = 0;
 
-            EndPoint[] endpoints = this.cacheReport.GetEndPoints();
-            List<RedisKey> keys = this.cacheReport.GetServer(endpoints[0]).Keys().ToList();
+            EndPoint[] endpoints = this._redis.GetEndPoints();
+            List<RedisKey> keys = this._redis.GetServer(endpoints[0]).Keys().ToList();
 
             TraceIpReport report;
             foreach (var key in keys)

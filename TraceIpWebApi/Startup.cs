@@ -30,24 +30,12 @@ namespace TraceIpWebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //services.AddDistributedRedisCache((options) => {
-            //    IConfigurationSection section = Configuration.GetSection("RedisDB");
-            //    ConfigurationOptions config = new ConfigurationOptions
-            //    {
-            //        EndPoints =
-            //        {
-            //            { section["Location"], Convert.ToInt32(section["Port"]) },
-            //        },
-            //        AbortOnConnectFail = false
-            //    };
-            //    options.ConfigurationOptions = config;
-            //});
-
             IConfigurationSection section = Configuration.GetSection("RedisDB");
             string connectionString = section["Location"] + ":" + section["Port"];
+
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(connectionString));
-            services.AddSingleton<ITraceIpCache, TraceIpCache>();
-            services.AddSingleton<IStatsCache, StatsCache>();
+            services.AddSingleton<ITraceReportRepositorie, TraceReportRepositorie>();
+            services.AddSingleton<IStatsRepositorie, StatsRepositorie>();
             services.AddScoped<ITraceIpService, TraceIpService>();
         }
 

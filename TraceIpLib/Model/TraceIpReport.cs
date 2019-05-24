@@ -16,11 +16,6 @@ namespace TraceIp.Model
         public string CurrenciesRate { get; set; }
         public long Hits { get; set; }
 
-        public TraceIpReport()
-        {
-            Hits = 1;
-        }
-
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();

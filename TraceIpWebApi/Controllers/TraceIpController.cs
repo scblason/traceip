@@ -59,22 +59,44 @@ namespace TraceIpWebApi.Controllers
         public ActionResult GetNearestStat()
         {
             TraceIpReport report = _traceIpservice.GetReportByNearestCountry();
-            return 
-                Ok(report.ToString());
+            if (report != null)
+            {
+                return Ok(report.ToString());
+            }
+            else
+            {
+                return Ok("Theres no data in the TraceIp Report database. Call /api/traceip?... to generate a new report.");
+            }
         }
 
+        // GET api/traceip/stats/farest
         [HttpGet("stats/farest")]
         public ActionResult GetFarestStat()
         {
             TraceIpReport report = _traceIpservice.GetReportByFarestCountry();
-            return Ok(report.ToString());
+            if (report != null)
+            {
+                return Ok(report.ToString());
+            }
+            else
+            {
+                return Ok("Theres no data in the TraceIp Report database. Call /api/traceip?... to generate a new report.");
+            }
         }
 
+        // GET api/traceip/stats/average
         [HttpGet("stats/average")]
         public ActionResult GetAverageStat()
         {
-            long distance = _traceIpservice.GetAverageDistance();
-            return Ok(distance);
+            long? distance = _traceIpservice.GetAverageDistance();
+            if (distance != null)
+            {
+                return Ok(String.Format("Distancia promedio de todas las ejecuciones: {0}", distance));
+            }
+            else
+            {
+                return Ok("Theres no data in the TraceIp Report database. Call /api/traceip?... to generate a new report.");
+            }
         }
     }
 }

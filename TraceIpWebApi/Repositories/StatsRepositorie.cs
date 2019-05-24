@@ -8,16 +8,16 @@ using System.Linq;
 
 namespace TraceIpWebApi.Repositories
 {
-    public class StatsCache : IStatsCache
+    public class StatsRepositorie : IStatsRepositorie
     {
         private const int STATS_CACHE_DB = 1;
         private const string DISTANCE_SET = "distance";
         private const string AVERAGE_KEY = "average";
-        private readonly IConnectionMultiplexer cacheStats;
+        private readonly IConnectionMultiplexer _redis;
 
-        public StatsCache(IConnectionMultiplexer cache)
+        public StatsRepositorie(IConnectionMultiplexer redis)
         {
-            this.cacheStats = cache;
+            this._redis = redis;
         }
 
         public string GetFarestCountryCode()
@@ -32,17 +32,17 @@ namespace TraceIpWebApi.Repositories
             
         public void AddCountryByDistance(string key, double score)
         {
-            this.cacheStats.GetDatabase(STATS_CACHE_DB).SortedSetAdd(DISTANCE_SET, key, score);
+            this._redis.GetDatabase(STATS_CACHE_DB).SortedSetAdd(DISTANCE_SET, key, score);
         }
 
         public Task AddCountryByDistanceAsync(string key, double score)
         {
-            return this.cacheStats.GetDatabase(STATS_CACHE_DB).SortedSetAddAsync(DISTANCE_SET, key, score);
+            return this._redis.GetDatabase(STATS_CACHE_DB).SortedSetAddAsync(DISTANCE_SET, key, score);
         }
 
         private string GetFirstReportByRank(Order order)
         {
-            var reportsByRank = this.cacheStats.GetDatabase(STATS_CACHE_DB).SortedSetRangeByRank(DISTANCE_SET, 0, 0, order);
+            var reportsByRank = this._redis.GetDatabase(STATS_CACHE_DB).SortedSetRangeByRank(DISTANCE_SET, 0, 0, order);
             if (reportsByRank != null && reportsByRank.Length > 0)
             {
                 return reportsByRank[0];
@@ -52,20 +52,20 @@ namespace TraceIpWebApi.Repositories
 
         public long? GetCountryDistance(string countryCode)
         {
-            return this.cacheStats.GetDatabase(STATS_CACHE_DB).SortedSetRank(DISTANCE_SET, countryCode);
+            return this._redis.GetDatabase(STATS_CACHE_DB).SortedSetRank(DISTANCE_SET, countryCode);
         }
 
         public void UpdateAverageDistance(long average)
         {
-            this.cacheStats.GetDatabase(STATS_CACHE_DB).StringSet(AVERAGE_KEY, average.ToString());
+            this._redis.GetDatabase(STATS_CACHE_DB).StringSet(AVERAGE_KEY, average.ToString());
         }
 
-        public long GetAverageDistance()
+        public long? GetAverageDistance()
         {
-            string average = this.cacheStats.GetDatabase(STATS_CACHE_DB).StringGet(AVERAGE_KEY);
+            string average = this._redis.GetDatabase(STATS_CACHE_DB).StringGet(AVERAGE_KEY);
             if (!String.IsNullOrEmpty(average))
                 return Convert.ToInt64(average);
-            return 0;
+            return null;
         }
     }
 }
