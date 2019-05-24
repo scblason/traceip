@@ -1,10 +1,11 @@
-﻿// Run docker instance (Web API)
+# Run docker instance (Web API)
 docker run --env ASPNETCORE_ENVIRONMENT = Development--env ASPNETCORE_URLS = http://+:5000 -p 5000:5000 -t --rm -it  traceipwebapi
 
-// Docker compose
+# Docker compose
 docker-compose -f docker-compose.yml up -d --build
 
-// Test IPs
+# Test IPs
+```
 Afghanistan: 149.54.127.255
 Aleria: 41.109.116.255
 Antigua y Barbuda: 206.214.15.255
@@ -26,3 +27,4 @@ Cameroon: 41.244.255.255
 Rusia: 2.95.255.255
 Suecia: 2.255.247.255
 UK: 3.11.255.255
+```
