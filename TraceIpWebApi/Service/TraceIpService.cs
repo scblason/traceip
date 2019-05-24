@@ -92,6 +92,11 @@ namespace TraceIpWebApi.Service
             return this._traceCache.GetTraceReport(countryCode);
         }
 
+        public long GetAverageDistance()
+        {
+            return _statsCache.GetAverageDistance();
+        }
+
         private TraceIpReport GetReportFromCache(string countryCode)
         {
             return this._traceCache.GetTraceReport(countryCode);
@@ -111,7 +116,7 @@ namespace TraceIpWebApi.Service
                 _statsCache.AddCountryByDistance(report.CountryCode, report.Distance);
             }
 
-            _statsCache.UpdateAverageHits(_traceCache.GetTraceAverageByDistanceHits());
+            _statsCache.UpdateAverageDistance(_traceCache.CalculateAverageDistance());
         }
 
     }

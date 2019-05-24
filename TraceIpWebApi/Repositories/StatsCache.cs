@@ -55,12 +55,12 @@ namespace TraceIpWebApi.Repositories
             return this.cacheStats.GetDatabase(STATS_CACHE_DB).SortedSetRank(DISTANCE_SET, countryCode);
         }
 
-        public void UpdateAverageHits(long average)
+        public void UpdateAverageDistance(long average)
         {
             this.cacheStats.GetDatabase(STATS_CACHE_DB).StringSet(AVERAGE_KEY, average.ToString());
         }
 
-        public long GetAverageHits()
+        public long GetAverageDistance()
         {
             string average = this.cacheStats.GetDatabase(STATS_CACHE_DB).StringGet(AVERAGE_KEY);
             if (!String.IsNullOrEmpty(average))

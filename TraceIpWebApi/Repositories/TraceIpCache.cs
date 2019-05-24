@@ -41,7 +41,7 @@ namespace TraceIpWebApi.Repositories
             return this.cacheReport.GetDatabase(TRACE_CACHE_DB).StringSetAsync(key, value);
         }
 
-        public long GetTraceAverageByDistanceHits()
+        public long CalculateAverageDistance()
         {
             long average = 0;
             long totalHits = 0;

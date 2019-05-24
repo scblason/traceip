@@ -12,7 +12,7 @@ namespace TraceIpWebApi.Repositories
         void AddCountryByDistance(string key, double score);
         Task AddCountryByDistanceAsync(string key, double score);
 
-        void UpdateAverageHits(long average);
-        long GetAverageHits();
+        void UpdateAverageDistance(long average);
+        long GetAverageDistance();
     }
 }

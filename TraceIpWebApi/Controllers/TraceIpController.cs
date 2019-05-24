@@ -56,23 +56,25 @@ namespace TraceIpWebApi.Controllers
 
         // GET api/traceip/stats/nearest
         [HttpGet("stats/nearest")]
-        public async Task<ActionResult> GetNearestStat()
+        public ActionResult GetNearestStat()
         {
             TraceIpReport report = _traceIpservice.GetReportByNearestCountry();
-            return Ok(report);
+            return 
+                Ok(report.ToString());
         }
 
         [HttpGet("stats/farest")]
-        public async Task<ActionResult> GetFarestStat()
+        public ActionResult GetFarestStat()
         {
             TraceIpReport report = _traceIpservice.GetReportByFarestCountry();
-            return Ok(report);
+            return Ok(report.ToString());
         }
 
         [HttpGet("stats/average")]
-        public async Task<ActionResult> GetAverageStat()
+        public ActionResult GetAverageStat()
         {
-            return Ok();
+            long distance = _traceIpservice.GetAverageDistance();
+            return Ok(distance);
         }
     }
 }

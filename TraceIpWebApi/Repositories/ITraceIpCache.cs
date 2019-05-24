@@ -10,7 +10,7 @@ namespace TraceIpWebApi.Repositories
         Task GetTraceReportAsync(string key);
         void AddTraceReport(string key, string value);
         Task AddTraceReportAsync(string key, string value);
-        long GetTraceAverageByDistanceHits();
+        long CalculateAverageDistance();
     }
 
 }
