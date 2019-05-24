@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceIpWebApi", "TraceIpWebApi\TraceIpWebApi.csproj", "{18DCA2B7-8926-444D-B89C-41764280B347}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceIpLib", "TraceIpLib\TraceIpLib.csproj", "{5D5AB42B-E2DC-48C3-BD35-D66F0C5228C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraceIp.Tests", "TraceIp.Tests\TraceIp.Tests.csproj", "{EC51BF55-4CE4-4ED0-89BF-ED0D7B9680A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18DCA2B7-8926-444D-B89C-41764280B347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18DCA2B7-8926-444D-B89C-41764280B347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18DCA2B7-8926-444D-B89C-41764280B347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18DCA2B7-8926-444D-B89C-41764280B347}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D5AB42B-E2DC-48C3-BD35-D66F0C5228C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D5AB42B-E2DC-48C3-BD35-D66F0C5228C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D5AB42B-E2DC-48C3-BD35-D66F0C5228C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D5AB42B-E2DC-48C3-BD35-D66F0C5228C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC51BF55-4CE4-4ED0-89BF-ED0D7B9680A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC51BF55-4CE4-4ED0-89BF-ED0D7B9680A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC51BF55-4CE4-4ED0-89BF-ED0D7B9680A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC51BF55-4CE4-4ED0-89BF-ED0D7B9680A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
