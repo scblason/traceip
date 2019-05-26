@@ -4,6 +4,10 @@ using System.Text;
 
 namespace TraceIp.Model
 {
+    /**
+     * Represents all the information that we need to return to the user about a 
+     * country.    
+     */
     public class TraceIpReport
     {
         public string CountryName { get; set; }

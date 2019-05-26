@@ -9,17 +9,26 @@ using System.Linq;
 
 namespace TraceIp
 {
+    /**
+     * Helper class to perform 
+     */
     public static class Helper
     {
         private static readonly GeoCoordinate ROOT_COORDINATE = new GeoCoordinate(-34, -64); // Buenos Aires
 
-        public static double CalculateDistance(List<long> latLong)
+        /**
+         * We return the distance from latLong parameter to ROOT_COORDINATE (by definition, is Buenos Aires)
+         */
+        public static long CalculateDistance(List<long> latLong)
         {
             GeoCoordinate coordinate = new GeoCoordinate(latLong[0], latLong[1]);
             double distance = ROOT_COORDINATE.GetDistanceTo(coordinate);
-            return Math.Floor(distance / 1000); //In kms
+            return (long)(distance / 1000); //In kms, and we use the floor to round up
         }
 
+        /**
+         * Helper method to get (asynchronously) the current exchange rate from a list of currencies.
+         */
         public static async Task<string> CurrencyConverter(ITraceIpApi traceIpApi, List<Currency> currencies)
         {
             string currenciesRates = "";

@@ -8,6 +8,9 @@ using TraceIp.Model;
 
 namespace TraceIp.Api
 {
+    /**
+     * Implementation of the interface used to call the public APIs that the service consume.
+     */
     public class MeliTraceIpApi : ITraceIpApi, IDisposable
     {
         private readonly HttpClient client = new HttpClient();

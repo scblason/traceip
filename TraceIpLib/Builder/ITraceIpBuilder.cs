@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using TraceIp.Model;
 
-namespace TraceIp.Builders
+namespace TraceIp.Builder
 {
 
     public interface ITraceIpBuilder

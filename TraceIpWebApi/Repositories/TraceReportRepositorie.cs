@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace TraceIpWebApi.Repositories
 {
+    /**
+     * Repositorie to get all information related to the countries.
+     */
     public class TraceReportRepositorie : ITraceReportRepositorie
     {
         private IConnectionMultiplexer _redis;
@@ -41,24 +44,11 @@ namespace TraceIpWebApi.Repositories
             return this._redis.GetDatabase(TRACE_CACHE_DB).StringSetAsync(key, value);
         }
 
-        public long CalculateAverageDistance()
+        public List<String> GetCountries()
         {
-            long average = 0;
-            long totalHits = 0;
-
             EndPoint[] endpoints = this._redis.GetEndPoints();
             List<RedisKey> keys = this._redis.GetServer(endpoints[0]).Keys().ToList();
-
-            TraceIpReport report;
-            foreach (var key in keys)
-            {
-                report = GetTraceReport(key);
-                totalHits += report.Hits;
-
-                average += (long)report.Distance * report.Hits;
-            }
-
-            return totalHits > 0 ? (long)(average / totalHits) : 0;
+            return keys.Select(k => (string)k).ToList();
         }
     }
 }

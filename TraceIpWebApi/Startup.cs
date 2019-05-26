@@ -34,8 +34,8 @@ namespace TraceIpWebApi
             string connectionString = section["Location"] + ":" + section["Port"];
 
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(connectionString));
-            services.AddSingleton<ITraceReportRepositorie, TraceReportRepositorie>();
-            services.AddSingleton<IStatsRepositorie, StatsRepositorie>();
+            services.AddScoped<ITraceReportRepositorie, TraceReportRepositorie>();
+            services.AddScoped<IStatsRepositorie, StatsRepositorie>();
             services.AddScoped<ITraceIpService, TraceIpService>();
         }
 

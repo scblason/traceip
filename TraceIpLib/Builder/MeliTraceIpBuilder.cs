@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using TraceIp.Model;
 
-namespace TraceIp.Builders
+namespace TraceIp.Builder
 {
+    /**
+     * Report generator class, used to build the TraceIpReport with all the information 
+     * from the country.
+     * It uses a Builder pattern to build all the parts of the report.
+     */
     public class MeliTraceIpBuilder : ITraceIpBuilder
     {
         protected TraceIpReport traceReport;

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TraceIp;
 using TraceIp.Api;
-using TraceIp.Builders;
+using TraceIp.Builder;
 using TraceIp.Model;
 using TraceIpWebApi.Repositories;
 
@@ -114,7 +115,26 @@ namespace TraceIpWebApi.Service
                 _statsRepositorie.AddCountryByDistance(report.CountryCode, report.Distance);
             }
 
-            _statsRepositorie.UpdateAverageDistance(_traceReportRepositorie.CalculateAverageDistance());
+            _statsRepositorie.UpdateAverageDistance(CalculateAverageDistance());
+        }
+
+        private long CalculateAverageDistance()
+        {
+            long average = 0;
+            long totalHits = 0;
+
+            List<String> keys = _traceReportRepositorie.GetCountries();
+
+            TraceIpReport report;
+            foreach (string key in keys)
+            {
+                report = _traceReportRepositorie.GetTraceReport(key);
+                totalHits += report.Hits;
+
+                average += (long)report.Distance * report.Hits;
+            }
+
+            return totalHits > 0 ? (long)(average / totalHits) : 0;
         }
 
     }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TraceIp;
 using TraceIp.Api;
-using TraceIp.Builders;
+using TraceIp.Builder;
 using TraceIp.Model;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -16,6 +16,21 @@ using TraceIpWebApi.Service;
 
 namespace TraceIpWebApi.Controllers
 {
+    /**
+     * REST API para obtener información asociada a IPs y paises, junto a su estadistica de uso.
+     * Servicios definidos:
+     *    
+     * GET api/traceip/stats/nearest:
+     * Devuelve el reporte del pais mas cercano (en Kms) a la ciudad de Buenos Aires
+     *
+     * GET api/traceip/stats/farest:
+     * Devuelve el reporte del pais mas lejano (en Kms) a la ciudad de Buenos Aires
+     *
+     * GET api/traceip/stats/average:
+     * Devuelve la distancia promedio de todas las ejecuciones que se hayan hecho al servicio.
+     * 
+     * TBD: Use a localization resource file to avoid strings labels in code
+     */
     [Route("api/[controller]")]
     [ApiController]
     public class TraceIpController : ControllerBase
@@ -31,8 +46,6 @@ namespace TraceIpWebApi.Controllers
         [HttpGet]
         public async Task<ActionResult> TraceIp([FromQuery]string ip)
         {
-            //string ip = "23.17.255.255"; // Canada
-            //string ip = "2.155.255.255"; // Spain
             try
             {
                 if (String.IsNullOrEmpty(ip))
