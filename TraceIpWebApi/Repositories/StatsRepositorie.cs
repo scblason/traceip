@@ -23,6 +23,11 @@ namespace TraceIpWebApi.Repositories
             this._redis = redis;
         }
 
+        private IDatabase GetDatabase()
+        {
+            return this._redis.GetDatabase(STATS_CACHE_DB);
+        }
+
         public string GetFarestCountryCode()
         {
             RedisValue[] values = GetFirstReportByRank(Order.Descending);
@@ -59,17 +64,17 @@ namespace TraceIpWebApi.Repositories
             
         public void AddCountryByDistance(string key, double score)
         {
-            this._redis.GetDatabase(STATS_CACHE_DB).SortedSetAdd(DISTANCE_SET, key, score);
+            GetDatabase().SortedSetAdd(DISTANCE_SET, key, score);
         }
 
         public Task AddCountryByDistanceAsync(string key, double score)
         {
-            return this._redis.GetDatabase(STATS_CACHE_DB).SortedSetAddAsync(DISTANCE_SET, key, score);
+            return GetDatabase().SortedSetAddAsync(DISTANCE_SET, key, score);
         }
 
         private RedisValue[] GetFirstReportByRank(Order order)
         {
-            var reportsByRank = this._redis.GetDatabase(STATS_CACHE_DB).SortedSetRangeByRank(DISTANCE_SET, 0, 1, order);
+            var reportsByRank = GetDatabase().SortedSetRangeByRank(DISTANCE_SET, 0, 1, order);
             if (reportsByRank != null && reportsByRank.Length > 0)
             {
                 return reportsByRank;
@@ -79,17 +84,17 @@ namespace TraceIpWebApi.Repositories
 
         public long? GetCountryDistance(string countryCode)
         {
-            return this._redis.GetDatabase(STATS_CACHE_DB).SortedSetRank(DISTANCE_SET, countryCode);
+            return GetDatabase().SortedSetRank(DISTANCE_SET, countryCode);
         }
 
         public void UpdateAverageDistance(long average)
         {
-            this._redis.GetDatabase(STATS_CACHE_DB).StringSet(AVERAGE_KEY, average.ToString());
+            GetDatabase().StringSet(AVERAGE_KEY, average.ToString());
         }
 
         public long? GetAverageDistance()
         {
-            string average = this._redis.GetDatabase(STATS_CACHE_DB).StringGet(AVERAGE_KEY);
+            string average = GetDatabase().StringGet(AVERAGE_KEY);
             if (!String.IsNullOrEmpty(average))
                 return Convert.ToInt64(average);
             return null;

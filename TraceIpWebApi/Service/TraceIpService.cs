@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using TraceIp;
-using TraceIp.Api;
 using TraceIp.Builder;
 using TraceIp.Model;
+using TraceIpWebApi.Api;
 using TraceIpWebApi.Repositories;
 
 namespace TraceIpWebApi.Service
@@ -139,3 +138,6 @@ namespace TraceIpWebApi.Service
 
     }
 }
+
+
+

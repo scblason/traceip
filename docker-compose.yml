@@ -4,17 +4,16 @@ services:
     image: traceipwebapi
     container_name: traceipwebapi
     build:
-      args:
-        buildconfig: Debug
       context: ./
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:5000
     ports:
       - "5000:5000"
     links:
       - redis
+
   redis:
     image: redis
     container_name: redisdb

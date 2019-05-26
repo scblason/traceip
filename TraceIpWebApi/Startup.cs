@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using TraceIpWebApi.Repositories;
 using TraceIpWebApi.Service;
@@ -30,8 +28,7 @@ namespace TraceIpWebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            IConfigurationSection section = Configuration.GetSection("RedisDB");
-            string connectionString = section["Location"] + ":" + section["Port"];
+            string connectionString = Configuration.GetConnectionString("RedisDB");
 
             services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(connectionString));
             services.AddScoped<ITraceReportRepositorie, TraceReportRepositorie>();

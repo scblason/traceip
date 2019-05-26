@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using GeoCoordinatePortable;
-using TraceIp.Api;
 using TraceIp.Model;
 using System.Linq;
+using TraceIpWebApi.Api;
 
-namespace TraceIp
+namespace TraceIpWebApi.Service
 {
-    /**
-     * Helper class to perform 
-     */
     public static class Helper
     {
         private static readonly GeoCoordinate ROOT_COORDINATE = new GeoCoordinate(-34, -64); // Buenos Aires

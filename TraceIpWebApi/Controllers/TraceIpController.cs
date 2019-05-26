@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TraceIp;
-using TraceIp.Api;
 using TraceIp.Builder;
 using TraceIp.Model;
 using Microsoft.Extensions.Caching.Distributed;

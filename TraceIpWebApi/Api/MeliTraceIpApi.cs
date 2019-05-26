@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TraceIp.Model;
 
-namespace TraceIp.Api
+namespace TraceIpWebApi.Api
 {
     /**
      * Implementation of the interface used to call the public APIs that the service consume.

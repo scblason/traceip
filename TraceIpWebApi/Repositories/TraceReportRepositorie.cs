@@ -15,7 +15,7 @@ namespace TraceIpWebApi.Repositories
      */
     public class TraceReportRepositorie : ITraceReportRepositorie
     {
-        private IConnectionMultiplexer _redis;
+        private readonly IConnectionMultiplexer _redis;
         private const int TRACE_CACHE_DB = 0;
 
         public TraceReportRepositorie(IConnectionMultiplexer redis)
@@ -23,25 +23,30 @@ namespace TraceIpWebApi.Repositories
             this._redis = redis;
         }
 
+        private IDatabase GetDatabase()
+        {
+            return this._redis.GetDatabase(TRACE_CACHE_DB);
+        }
+
         public TraceIpReport GetTraceReport(string key)
         {
-            string report = this._redis.GetDatabase(TRACE_CACHE_DB).StringGet(key);
+            string report = GetDatabase().StringGet(key);
             return !String.IsNullOrEmpty(report) ? JsonConvert.DeserializeObject<TraceIpReport>(report) : null;
         }
 
         public Task GetTraceReportAsync(string key)
         {
-            return this._redis.GetDatabase(TRACE_CACHE_DB).StringGetAsync(key);
+            return GetDatabase().StringGetAsync(key);
         }
 
         public void AddTraceReport(string key, string value)
         {
-            this._redis.GetDatabase(TRACE_CACHE_DB).StringSet(key, value);
+            GetDatabase().StringSet(key, value);
         }
 
         public Task AddTraceReportAsync(string key, string value)
         {
-            return this._redis.GetDatabase(TRACE_CACHE_DB).StringSetAsync(key, value);
+            return GetDatabase().StringSetAsync(key, value);
         }
 
         public List<String> GetCountries()
